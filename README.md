@@ -137,9 +137,3 @@ config.DB.AutoMigrate(&models.Todo{})
 ## 📜 License
 
 MIT License
-
----
-
-If you want, I can also **add a badges section and curl examples for each endpoint** to make this README even more professional and user-friendly.
-
-Do you want me to do that?
