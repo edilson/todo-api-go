@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    container_name: todo-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: todo_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - todo-network
+
+  api:
+    build: .
+    container_name: todo-api
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: secret
+      DB_NAME: todo_db
+      DB_PORT: 5432
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - todo-network
+
+volumes:
+  postgres_data:
+
+networks:
+  todo-network:
+    driver: bridge
