@@ -29,7 +29,7 @@ func ConnectDB() {
 	if os.Getenv("APP_ENV") == "test" {
 		db, err = gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
 
-		db.AutoMigrate(&models.Todo{})
+		db.AutoMigrate(&models.Todo{}, &models.User{})
 	} else {
 		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	}

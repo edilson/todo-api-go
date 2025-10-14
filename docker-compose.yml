@@ -24,6 +24,7 @@ services:
       DB_PASSWORD: secret
       DB_NAME: todo_db
       DB_PORT: 5432
+      AUTH_SECRET: some-secret
     ports:
       - "8080:8080"
     depends_on:

@@ -127,7 +127,6 @@ config.DB.AutoMigrate(&models.Todo{})
 
 ## 💡 Future Improvements
 
-* Add authentication (JWT)
 * Add request validation
 * Add pagination and filtering
 * Deploy to cloud (AWS/GCP/DigitalOcean)
