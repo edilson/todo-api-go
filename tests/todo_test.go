@@ -104,10 +104,10 @@ func TestTodoHandlers(t *testing.T) {
 	}
 }
 
+// To do: Fix this test
 func TestCreateTodo(t *testing.T) {
 	os.Setenv("OPENAI_API_KEY", "test_key")
 
-	// Backup original functions so we can restore them later
 	origAskMusicGenre := requests.AskMusicGenre
 	origRetrievePlaylist := requests.RetrievePlaylist
 	origCreateTodo := storage.CreateTodo
@@ -118,7 +118,6 @@ func TestCreateTodo(t *testing.T) {
 		storage.CreateTodo = origCreateTodo
 	}()
 
-	// --- MOCK IMPLEMENTATIONS ---
 	requests.AskMusicGenre = func(task string) string {
 		return "lofi"
 	}
@@ -143,22 +142,18 @@ func TestCreateTodo(t *testing.T) {
 	}
 
 	storage.CreateTodo = func(todo *models.Todo) error {
-		// Pretend it was saved and assign an ID
 		todo.ID = 1
 		return nil
 	}
 
-	// --- TEST REQUEST BODY ---
 	inputTodo := models.Todo{Title: "Do the dishes"}
 	body, _ := json.Marshal(inputTodo)
 
 	req := httptest.NewRequest("POST", "/todos", bytes.NewReader(body))
 	w := httptest.NewRecorder()
 
-	// --- CALL HANDLER ---
 	handlers.CreateTodo(w, req)
 
-	// --- ASSERTIONS ---
 	resp := w.Result()
 	defer resp.Body.Close()
 
