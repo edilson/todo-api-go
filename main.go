@@ -11,7 +11,7 @@ import (
 func main() {
 	config.ConnectDB()
 
-	config.DB.AutoMigrate(&models.Todo{}, &models.User{})
+	config.DB.AutoMigrate(&models.Todo{}, &models.User{}, &models.Playlist{})
 
 	router := routes.SetupRoutes()
 

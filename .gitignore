@@ -39,3 +39,5 @@ docker-compose.override.yml
 # Temporary files
 *.tmp
 *.temp
+
+.env

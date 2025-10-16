@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"todo-api/models"
+	"todo-api/requests"
 	"todo-api/storage"
 
 	"github.com/gorilla/mux"
@@ -45,10 +46,17 @@ func CreateTodo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	genre := requests.AskMusicGenre(todo.Title)
+
+	playlist := requests.RetrievePlaylist(genre)
+
+	todo.Playlist = models.Playlist{Name: string(playlist.Playlists.Items[0].Name), Description: string(playlist.Playlists.Items[0].Description), Link: string(playlist.Playlists.Items[0].ExternalURLs.Spotify), Image: string(playlist.Playlists.Items[0].Images[0].Url), TodoID: todo.ID}
+
 	if err := storage.CreateTodo(&todo); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(todo)

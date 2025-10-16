@@ -7,17 +7,17 @@ import (
 
 func GetAllTodos() ([]models.Todo, error) {
 	var todos []models.Todo
-	result := config.DB.Find(&todos)
+	result := config.DB.Preload("Playlist").Find(&todos)
 	return todos, result.Error
 }
 
 func GetTodoByID(id uint) (models.Todo, error) {
 	var todo models.Todo
-	result := config.DB.First(&todo, id)
+	result := config.DB.Preload("Playlist").First(&todo, id)
 	return todo, result.Error
 }
 
-func CreateTodo(todo *models.Todo) error {
+var CreateTodo = func(todo *models.Todo) error {
 	if !todo.Completed {
 		todo.Completed = false
 	}
